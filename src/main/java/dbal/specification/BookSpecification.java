@@ -13,7 +13,7 @@ public class BookSpecification {
             return new AbstractSpecification() {
                 @Override
                 public Criterion toCriterion() {
-                    return Restrictions.eq("genre_id", genre_id);
+                    return Restrictions.eq("genre", genre_id);
                 }
             };
         }
