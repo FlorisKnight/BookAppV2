@@ -72,4 +72,16 @@ public class BookHandler implements IBookHandler {
         ErrorJson errorJson = new ErrorJson("Something went wrong");
         return new Reply(Status.ERROR, gson.toJson(errorJson));
     }
+
+    @Override
+    public Reply deleteBook(int id) {
+        try {
+            repo.delete(id);
+            ErrorJson messageJson = new ErrorJson("Deleted");
+            return new Reply(Status.OK, gson.toJson(messageJson));
+        } catch (Exception e){
+            ErrorJson errorJson = new ErrorJson("Something went wrong");
+            return new Reply(Status.ERROR, gson.toJson(errorJson));
+        }
+    }
 }

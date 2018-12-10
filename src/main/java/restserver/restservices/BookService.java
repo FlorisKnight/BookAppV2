@@ -44,8 +44,16 @@ public class BookService {
     @Path("/save")
     @Consumes("application/json")
     public Response saveBook(String data) {
+        System.out.println(data);
         Book book = gson.fromJson(data, Book.class);
         Reply reply = handler.saveBook(book);
+        return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
+    }
+
+    @POST
+    @Path("/delete/{id}")
+    public Response getDeleteBook(@PathParam("id") int bookId) {
+        Reply reply = handler.deleteBook(bookId);
         return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
     }
 }

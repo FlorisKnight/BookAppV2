@@ -12,4 +12,6 @@ public interface IBookHandler {
     Reply getBooksByGenre(int id);
 
     Reply saveBook(Book data);
+
+    Reply deleteBook(int id);
 }
