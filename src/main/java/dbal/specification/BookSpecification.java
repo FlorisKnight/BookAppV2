@@ -9,11 +9,11 @@ public class BookSpecification {
             throw new IllegalStateException("Utility class");
         }
 
-        public static Specifiable getByGenre(int genre_id) {
+        public static Specifiable getById(int book_id) {
             return new AbstractSpecification() {
                 @Override
                 public Criterion toCriterion() {
-                    return Restrictions.eq("genre", genre_id);
+                    return Restrictions.eq("id", book_id);
                 }
             };
         }

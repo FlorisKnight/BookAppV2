@@ -1,4 +1,5 @@
 import dbal.repository.BookRepository;
+import dbal.repository.GenreRepository;
 import logging.Logger;
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -8,8 +9,11 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.servlet.ServletContainer;
 import restserver.handlers.BookHandler;
+import restserver.handlers.GenreHandler;
 import restserver.handlers.IBookHandler;
+import restserver.handlers.IGenreHandler;
 import restserver.restservices.BookService;
+import restserver.restservices.GenreService;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
@@ -60,12 +64,16 @@ public class RestService {
         jettyServer.setHandler(context);
         ServletHolder jerseyServlet = context.addServlet(ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);
+
+        // Creating and setting handlers
         IBookHandler bookHandler = new BookHandler(new BookRepository());
         BookService.setHandler(bookHandler);
-        // Tells the Jersey Servlet which REST service/class to load.
-        String services = BookService.class.getCanonicalName();
 
-        jerseyServlet.setInitParameter("jersey.config.server.provider.classnames", services);
+        IGenreHandler genreHandler = new GenreHandler(new GenreRepository());
+        GenreService.setHandler(genreHandler);
+
+        // Tells the Jersey Servlet which REST service/class to load
+        jerseyServlet.setInitParameter("jersey.config.server.provider.packages", "restserver.restservices");
         try {
             jettyServer.start();
             jettyServer.join();

@@ -1,11 +1,12 @@
 package models;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import restserver.response.GenreJson;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="book")
@@ -18,19 +19,35 @@ public class Book {
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+            CascadeType.MERGE,
+    }, fetch = FetchType.EAGER)
     @JoinTable(name = "book_genre",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private List<Genre> genres;
+    private Set<Genre> genres = new HashSet<>();
 
-    public Book(int id, String name, String author, ArrayList<Genre> genres) {
+    public Book(String name, String author, ArrayList<GenreJson> genres) {
+        this.name = name;
+        this.author = author;
+        this.genres = new HashSet<Genre>();
+        if (genres != null) {
+            for (GenreJson g : genres) {
+                this.genres.add(new Genre(g.getId(), g.getName()));
+            }
+        }
+    }
+
+    public Book(int id, String name, String author, ArrayList<GenreJson> genres) {
         this.id = id;
         this.name = name;
         this.author = author;
-        this.genres = genres;
+        this.genres = new HashSet<Genre>();
+        if (genres != null) {
+            for (GenreJson g : genres) {
+                this.genres.add(new Genre(g.getId(), g.getName()));
+            }
+        }
     }
 
     public Book() {
@@ -48,15 +65,7 @@ public class Book {
         return author;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public ArrayList<String> getGenreNames(){
-        ArrayList<String> genreNames = new ArrayList<>();
-        for(Genre g: genres) {
-            genreNames.add(g.getName());
-        }
-        return genreNames;
+    public ArrayList<Genre> getGenres() {
+        return new ArrayList<>(genres);
     }
 }

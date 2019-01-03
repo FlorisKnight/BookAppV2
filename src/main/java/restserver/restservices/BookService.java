@@ -35,13 +35,6 @@ public class BookService {
         return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
     }
 
-    @GET
-    @Path("/genre/{id}")
-    public Response getGetBookByGenre(@PathParam("id") int genreId) {
-        Reply reply = handler.getBooksByGenre(genreId);
-        return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
-    }
-
     @POST
     @Path("/save")
     @Consumes("application/json")
