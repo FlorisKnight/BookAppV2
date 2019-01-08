@@ -13,7 +13,7 @@ public class Genre {
     private int id;
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres")
     private Set<Book> books = new HashSet<>();
 
     public Genre(int id, String name) {

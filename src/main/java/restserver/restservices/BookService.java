@@ -35,6 +35,20 @@ public class BookService {
         return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
     }
 
+    @GET
+    @Path("/genre/{id}")
+    public Response getBookByGenre(@PathParam("id") int bookId) {
+        Reply reply = handler.getBookByGenre(bookId);
+        return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
+    }
+
+    @GET
+    @Path("/amount/{id}")
+    public Response getTenBooks(@PathParam("id") int bookId) {
+        Reply reply = handler.getTenBooks(bookId);
+        return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
+    }
+
     @POST
     @Path("/save")
     @Consumes("application/json")

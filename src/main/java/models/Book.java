@@ -5,7 +5,6 @@ import restserver.response.GenreJson;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -49,6 +48,18 @@ public class Book {
             }
         }
     }
+
+    public Book(String name, String author, ArrayList<Genre> genres, boolean bool) {
+        this.name = name;
+        this.author = author;
+        this.genres = new HashSet<Genre>();
+        if (genres != null) {
+            for (Genre g : genres) {
+                this.genres.add(new Genre(g.getId(), g.getName()));
+            }
+        }
+    }
+
 
     public Book() {
     }

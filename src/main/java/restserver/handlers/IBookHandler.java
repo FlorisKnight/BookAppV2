@@ -10,6 +10,10 @@ public interface IBookHandler {
 
     Reply getBook(int id);
 
+    Reply getBookByGenre(int id);
+
+    Reply getTenBooks(int id);
+
     Reply saveBook(Book data);
 
     Reply deleteBook(int id);
